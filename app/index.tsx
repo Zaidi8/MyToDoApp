@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, SafeAreaView} from 'react-native';
-import Header from '../src/components/Header';
+import Header from '../src/components/Common/Header';
 import Toast from 'react-native-toast-message';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-native-paper';
 import {Notes} from '../src/types/index';
 import {updateAsyncStorage} from '../src/utils/updateAsyncStorage';
 import {loadFromAsyncStorage} from '../src/utils/loadFromAsyncStorage';
-import styles from '@/src/components/Styles';
-import {showToast} from '@/src/components/Toast';
-import EditModal from '@/src/components/EditModal';
-import TaskItem from '@/src/components/TaskItem';
-import Footer from '@/src/components/Footer';
+import styles from '@/src/components/Styles/Styles';
+import {showToast} from '@/src/components/Toast/Toast';
+import EditModal from '@/src/components/Modal/EditModal';
+import TaskItem from '@/src/components/Specific/TaskItem';
+import Footer from '@/src/components/Common/Footer';
 
 const App: React.FC = () => {
   const [value, setValue] = useState<string>('');

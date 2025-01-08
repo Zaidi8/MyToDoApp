@@ -1,5 +1,5 @@
 import {Modal, View, Text, TextInput} from 'react-native';
-import styles from './Styles';
+import styles from './Styles/Styles';
 import {Button} from 'react-native-paper';
 
 interface EditModalProps {

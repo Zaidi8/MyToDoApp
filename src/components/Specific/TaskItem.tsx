@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Notes} from '../types';
 import {MaterialIcons} from '@expo/vector-icons';
-import styles from './Styles';
+import styles from './Styles/Styles';
 import {Menu} from 'react-native-paper';
 import {useState} from 'react';
 

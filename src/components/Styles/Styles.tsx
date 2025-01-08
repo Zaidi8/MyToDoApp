@@ -15,6 +15,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
+  image: {
+    height: 70,
+    width: 70,
+  },
+  header: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontSize: 40,
+    marginLeft: 20,
+    fontFamily: 'sans-serif',
+    letterSpacing: 1.1,
+    fontWeight: 'bold',
+    color: '#2c7be5',
+  },
   menu: {
     backgroundColor: 'white',
   },
