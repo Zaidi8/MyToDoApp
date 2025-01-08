@@ -6,7 +6,6 @@ import {
   TextInput,
 } from 'react-native';
 import styles from './Styles';
-import {useState} from 'react';
 
 interface FooterProps {
   value: string;

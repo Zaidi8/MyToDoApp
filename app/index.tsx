@@ -65,11 +65,7 @@ const App: React.FC = () => {
       await updateAsyncStorage(newToDoList);
       setEditMode(false); // Close modal after saving
     } else {
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'Task cannot be empty',
-      });
+      showToast('error', 'Error', 'Task Can Not Be Empty!');
     }
   };
   const handleEditCancel = () => {
