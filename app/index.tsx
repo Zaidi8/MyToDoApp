@@ -1,23 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  Modal,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {ScrollView, SafeAreaView} from 'react-native';
 import Header from '../src/components/Header';
 import Toast from 'react-native-toast-message';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Menu, Button, Provider} from 'react-native-paper';
-import {MaterialIcons} from '@expo/vector-icons';
+import {Provider} from 'react-native-paper';
 import {Notes} from '../src/types/index';
 import {updateAsyncStorage} from '../src/utils/updateAsyncStorage';
 import {loadFromAsyncStorage} from '../src/utils/loadFromAsyncStorage';
+import styles from '@/src/components/Styles';
+import {showToast} from '@/src/components/Toast';
+import EditModal from '@/src/components/EditModal';
+import TaskItem from '@/src/components/TaskItem';
+import Footer from '@/src/components/Footer';
 
 const App: React.FC = () => {
   const [value, setValue] = useState<string>('');
@@ -32,22 +26,17 @@ const App: React.FC = () => {
       setToDos(data);
     }
   };
+
   const handleSubmit = async () => {
     if (value.trim()) {
       const updatedToDoList = [...toDoList, {text: value, completed: false}];
       setToDos(updatedToDoList);
       await updateAsyncStorage(updatedToDoList);
     } else {
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'Task cannot be empty',
-      });
+      showToast('error', 'Error', 'Task Can Not Be Empty!');
     }
     setValue('');
   };
-
-  const [activeMenu, setActiveMenu] = useState<number | null>(null);
 
   const removeItem = async (index: number) => {
     const newToDoList = [...toDoList];
@@ -83,6 +72,9 @@ const App: React.FC = () => {
       });
     }
   };
+  const handleEditCancel = () => {
+    setEditMode(false);
+  };
   useEffect(() => {
     readStorage();
   }, []);
@@ -93,236 +85,35 @@ const App: React.FC = () => {
         <SafeAreaView style={styles.container}>
           <Header />
           <ScrollView style={styles.scrollView}>
-            {toDoList.map((toDo: Notes, index: number) => {
-              return (
-                <View
-                  key={`${index}_${toDo.text}`}
-                  style={[
-                    styles.taskContainer,
-                    {
-                      backgroundColor: toDo.completed ? '#4cd964' : 'white',
-                    },
-                  ]}>
-                  <Text
-                    style={[
-                      styles.note,
-                      {
-                        textDecorationLine: toDo.completed
-                          ? 'line-through'
-                          : 'none',
-                        color: toDo.completed ? '#07bc0c' : 'black',
-                      },
-                    ]}>
-                    {toDo.text}
-                  </Text>
-                  <Menu
-                    style={styles.menuContainer}
-                    visible={activeMenu === index}
-                    onDismiss={() => setActiveMenu(null)}
-                    anchor={
-                      <TouchableOpacity onPress={() => setActiveMenu(index)}>
-                        <MaterialIcons
-                          name="more-vert"
-                          size={30}
-                          color="black"
-                        />
-                      </TouchableOpacity>
-                    }>
-                    {/* Toggle Task Completion */}
-                    <Menu.Item
-                      style={styles.menu}
-                      onPress={() => {
-                        toggleComplete(index);
-                        setActiveMenu(null);
-                      }}
-                      title={
-                        toDo.completed ? 'Mark Incomplete' : 'Mark Complete'
-                      }
-                      titleStyle={{
-                        color: '#5bc236',
-                      }}
-                    />
-
-                    {/* Edit Task */}
-                    <Menu.Item
-                      style={styles.menu}
-                      onPress={() => {
-                        handleEditTask(index);
-                        setActiveMenu(null);
-                      }}
-                      title="Edit"
-                      titleStyle={{
-                        color: '#0070ff',
-                      }}
-                    />
-                    {/* Delete Task */}
-                    <Menu.Item
-                      style={styles.menu}
-                      onPress={() => {
-                        removeItem(index);
-                        setActiveMenu(null);
-                      }}
-                      title="Delete"
-                      titleStyle={{
-                        color: 'red',
-                      }}
-                    />
-                  </Menu>
-                </View>
-              );
-            })}
-          </ScrollView>
-
-          {/* Edit Task Modal */}
-          <Modal
-            visible={editMode}
-            animationType="slide"
-            transparent={true}
-            onRequestClose={() => setEditMode(false)}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Text>Edit Task</Text>
-                <TextInput
-                  value={editText}
-                  onChangeText={setEditText}
-                  style={styles.modalInput}
-                />
-                <Button
-                  mode="contained"
-                  onPress={handleEditSubmit}
-                  style={{backgroundColor: 'white'}}
-                  textColor="#3cd070">
-                  Save
-                </Button>
-
-                <Button
-                  mode="contained"
-                  onPress={() => setEditMode(false)}
-                  style={{backgroundColor: 'white'}}
-                  textColor="red">
-                  Cancel
-                </Button>
-              </View>
-            </View>
-          </Modal>
-          <KeyboardAvoidingView style={styles.footer}>
-            <View style={styles.footerInner}>
-              <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-                <Text style={styles.btnText}>+</Text>
-              </TouchableOpacity>
-              <TextInput
-                placeholder="Enter Your ToDo Here"
-                placeholderTextColor={'#434343'}
-                value={value}
-                onChangeText={e => {
-                  setValue(e);
-                }}
-                style={styles.textInput}
+            {toDoList.map((toDo, index) => (
+              <TaskItem
+                key={index}
+                toDo={toDo}
+                index={index}
+                toggleComplete={toggleComplete}
+                onEdit={handleEditTask}
+                onDelete={removeItem}
               />
-            </View>
-          </KeyboardAvoidingView>
+            ))}
+          </ScrollView>
+          {/* Edit Task Modal */}
+          <EditModal
+            visible={editMode}
+            editText={editText}
+            onChangeText={setEditText}
+            onSave={handleEditSubmit}
+            onCancel={handleEditCancel}
+          />
+          <Footer
+            value={value}
+            onChange={setValue}
+            handleSubmit={handleSubmit}
+          />
+          <Toast />
         </SafeAreaView>
-        <Toast />
       </SafeAreaProvider>
     </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  taskContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: 10,
-    marginHorizontal: 20,
-    padding: 10,
-    borderRadius: 10,
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  menu: {
-    backgroundColor: 'white',
-  },
-  menuContainer: {
-    color: 'white',
-    marginTop: 30,
-  },
-  container: {
-    flex: 1,
-    position: 'relative',
-    backgroundColor: '#edf2f9',
-  },
-  scrollView: {
-    marginBottom: '20%',
-  },
-  note: {
-    flex: 1,
-    margin: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: '#f9f9f9',
-  },
-  btnText: {
-    color: 'white',
-    fontSize: 40,
-  },
-  textInput: {
-    zIndex: 0,
-    flex: 1,
-    padding: 20,
-    fontSize: 16,
-    color: 'black',
-  },
-  btn: {
-    zIndex: 1,
-    position: 'absolute',
-    right: 20,
-    top: -30,
-    width: 60,
-    height: 60,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#2c7be5',
-    backgroundColor: '#2c7be5',
-  },
-  footer: {
-    width: '100%',
-    height: 80,
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: '#b4c3e1',
-  },
-  footerInner: {
-    position: 'relative',
-    width: '100%',
-    height: '90%',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalContent: {
-    width: '80%',
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalInput: {
-    width: '100%',
-    padding: 10,
-    fontSize: 16,
-    marginBottom: 10,
-    backgroundColor: '#f0f0f0',
-  },
-});
 
 export default App;

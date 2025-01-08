@@ -1,50 +1,97 @@
-# Welcome to your Expo app 👋
+#React Native To-Do Application
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+=>Description
+This is a simple To-Do application built with React Native. It allows users to add, edit, complete, and delete tasks. The application persists data using AsyncStorage, ensuring that tasks are saved between sessions.
 
-## Get started
+=>Features
 
-1. Install dependencies
+- Add new tasks
+- Edit existing tasks
+- Mark tasks as completed or incomplete
+- Delete tasks
+- Persistent storage with AsyncStorage
 
-   ```bash
-   npm install
-   ```
+=>Usage
 
-2. Start the app
+### Adding a Task:
 
-   ```bash
-    npx expo start
-   ```
+- Enter the task description in the input field at the bottom of the screen.
+- Press the "+" button to add the task to the list.
 
-In the output, you'll find options to open the app in a
+### Editing a Task:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Tap on the three dots button next to the task you wish to edit.
+- Select the "Edit" option.
+- Modify the task description in the modal that appears.
+- Press "Save" to update the task.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Completing a Task:
 
-## Get a fresh project
+- Tap "Mark Complete" when the menu appears after clicking the three dots button next to the task to mark it as completed or incomplete.
 
-When you're ready, run:
+### Deleting a Task:
 
-```bash
-npm run reset-project
-```
+- Tap "Delete" when the menu appears after clicking the three dots button next to the task to delete it.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+=>Project Setup
 
-## Learn more
+### Prerequisites:
 
-To learn more about developing your project with Expo, look at the following resources:
+- [Node.js](https://nodejs.org/) installed
+- [Expo CLI](https://docs.expo.dev/get-started/installation/) installed
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Navigate to project Directory
 
-## Join the community
+- cd react-native-todo-app
 
-Join our community of developers creating universal apps.
+### Install Dependencies
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- npm install
+
+=Project Structure
+project-root/
+
+├── app/
+│ └── index.tsx
+├── assets/
+│ └── Icons/
+├── src/
+│ ├── components/
+│ │ ├── Header.tsx
+│ │ ├── TaskItem.tsx
+│ │ ├── EditModal.tsx
+│ │ ├── Styles.tsx
+│ │ ├── Toast.tsx
+│ │ └── Footer.tsx
+│ ├── types/
+│ │ └── index.d.ts
+│ └── utils/
+│ ├── updateAsyncStorage.ts
+│ └── loadFromAsyncStorage.ts
+├── package.json
+└── README.md
+
+=>Components
+
+- **Header**: Displays the application title.
+- **TaskItem**: Represents an individual task with options to edit, complete, or delete.
+- **Footer**: Contains the input field and button for adding new tasks.
+- **EditModal**: Modal component for editing existing tasks.
+
+=>State Management
+
+- The application uses React's useState and useEffect hooks for state management and side effects. The toDoList state holds the list of tasks, and changes are persisted using AsyncStorage.
+
+=>AsyncStorage
+
+- AsyncStorage is used to persist tasks between sessions. The loadFromAsyncStorage and updateAsyncStorage utility functions handle loading and saving data, respectively.
+
+=>Error Handling
+The application uses react-native-toast-message to display error messages, such as when attempting to add an empty task.
+
+=>Dependencies
+
+- [React Native](https://reactnative.dev/docs/getting-started)
+- [React Native Paper](https://callstack.github.io/react-native-paper/)
+- [React Native Toast Message](https://github.com/calintamas/react-native-toast-message)
+- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/docs/install/)

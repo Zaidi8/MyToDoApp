@@ -6,7 +6,10 @@ interface Props {}
 const Header: React.FC<Props> = () => {
   return (
     <View style={styles.header}>
-      <Image source={require('../../assets/icon.png')} style={styles.image} />
+      <Image
+        source={require('../assets/Icons/list.png')}
+        style={styles.image}
+      />
       <Text style={styles.text}>ToDo List</Text>
     </View>
   );
