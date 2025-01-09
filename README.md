@@ -53,22 +53,30 @@ project-root/
 
 ├── app/
 │ └── index.tsx
-├── assets/
-│ └── Icons/
+├── node_modules
 ├── src/
 │ ├── components/
-│ │ ├── Header.tsx
-│ │ ├── TaskItem.tsx
-│ │ ├── EditModal.tsx
-│ │ ├── Styles.tsx
-│ │ ├── Toast.tsx
-│ │ └── Footer.tsx
-│ ├── types/
+│ │ ├── Common/
+| │ │ |── Header.tsx
+| | | └── Footer.d.ts
+| | ├── Specific/
+| | | └── TaskItem.tsx
+│ │ ├── Modal/
+│ │ | └── EditModal.tsx
+│ │ ├── Styles/
+| | | └── Styles.tsx
+│ │ └── Toast/
+│ │ └── Toast.tsx
+│ ├──types/
 │ │ └── index.d.ts
 │ └── utils/
 │ ├── updateAsyncStorage.ts
 │ └── loadFromAsyncStorage.ts
 ├── package.json
+├── package-lock.json
+├── app.json
+├── eas.json
+├── expo-env.d.ts
 └── README.md
 
 =>Components
