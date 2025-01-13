@@ -1,5 +1,18 @@
 #React Native To-Do Application
 
+=> Project Setup
+
+- Clone the branch ExpoToDoApp from github run the following command
+  git clone -b ExpoToDoApp https://github.com/Zaidi8/MyToDoApp.git
+
+- install dependencies
+  npm install
+
+- run the following command on terminal after navigating to the project and install if it requires any package
+  npx expo start
+  if using a MacBook and it reuires permision
+  sudo npx expo start
+
 =>Description
 This is a simple To-Do application built with React Native. It allows users to add, edit, complete, and delete tasks. The application persists data using AsyncStorage, ensuring that tasks are saved between sessions.
 
