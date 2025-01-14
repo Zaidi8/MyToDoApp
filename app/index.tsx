@@ -7,7 +7,6 @@ import {Provider} from 'react-native-paper';
 import {Notes} from '../src/types/index';
 import {updateAsyncStorage} from '../src/utils/updateAsyncStorage';
 import {loadFromAsyncStorage} from '../src/utils/loadFromAsyncStorage';
-import styles from '@/src/components/Styles/Styles';
 import {showToast} from '@/src/components/Toast/Toast';
 import EditModal from '@/src/components/Modal/EditModal';
 import TaskItem from '@/src/components/Specific/TaskItem';
@@ -78,9 +77,9 @@ const App: React.FC = () => {
   return (
     <Provider>
       <SafeAreaProvider>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView className="flex-1 bg-background-blue relative">
           <Header />
-          <ScrollView style={styles.scrollView}>
+          <ScrollView>
             {toDoList.map((toDo, index) => (
               <TaskItem
                 key={index}

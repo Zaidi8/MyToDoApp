@@ -1,16 +1,17 @@
 import React from 'react';
 import {Text, View, Image} from 'react-native';
-import styles from '../Styles/Styles';
 interface Props {}
 
 const Header: React.FC<Props> = () => {
   return (
-    <View style={styles.header}>
+    <View className="flex-row py-1 items-center justify-center">
       <Image
         source={require('../../assets/Icons/list.png')}
-        style={styles.image}
+        className="h-20 w-20"
       />
-      <Text style={styles.headerText}>ToDo List</Text>
+      <Text className="text-5xl ml-3 font-bold color-header-font underline">
+        ToDo List
+      </Text>
     </View>
   );
 };

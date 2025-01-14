@@ -1,11 +1,5 @@
-import {
-  KeyboardAvoidingView,
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-} from 'react-native';
-import styles from '../Styles/Styles';
+import {KeyboardAvoidingView, View, TouchableOpacity, Text} from 'react-native';
+import TextInputField from '../Input/Text-Input';
 
 interface FooterProps {
   value: string;
@@ -15,18 +9,14 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({value, onChange, handleSubmit}) => {
   return (
-    <KeyboardAvoidingView style={styles.footer}>
-      <View style={styles.footerInner}>
-        <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-          <Text style={styles.btnText}>+</Text>
+    <KeyboardAvoidingView className="w-full h-24 bottom-0 absoulte bg-footer-background ">
+      <View className="relative w-full h-full">
+        <TouchableOpacity
+          className="z-10 absolute right-5 -top-8 w-16 h-16 items-center justify-center rounded-lg bg-footer-btn-background"
+          onPress={handleSubmit}>
+          <Text className="text-white text-5xl">+</Text>
         </TouchableOpacity>
-        <TextInput
-          placeholder="Enter Your ToDo Here"
-          placeholderTextColor={'#434343'}
-          value={value}
-          onChangeText={onChange}
-          style={styles.textInput}
-        />
+        <TextInputField value={value} onChange={onChange} />
       </View>
     </KeyboardAvoidingView>
   );

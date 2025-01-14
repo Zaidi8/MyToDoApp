@@ -1,12 +1,9 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text} from 'react-native';
 import {Notes} from '../../types/index';
-import {MaterialIcons} from '@expo/vector-icons';
-import styles from '../Styles/Styles';
-import {Menu} from 'react-native-paper';
-import {useState} from 'react';
+import DropDown from './Dropdown-Menu';
 
-interface TaskItenProps {
+interface TaskItemProps {
   toDo: Notes;
   index: number;
   toggleComplete: (index: number) => void;
@@ -14,80 +11,34 @@ interface TaskItenProps {
   onDelete: (index: number) => void;
 }
 
-const TaskItem: React.FC<TaskItenProps> = ({
+const TaskItem: React.FC<TaskItemProps> = ({
   toDo,
   index,
   toggleComplete,
   onEdit,
   onDelete,
 }) => {
-  const [activeMenu, setActiveMenu] = useState<number | null>(null);
   return (
     <View
-      key={`${index}_${toDo.text}`}
-      style={[
-        styles.taskContainer,
-        {
-          backgroundColor: toDo.completed ? '#4cd964' : 'white',
-        },
-      ]}>
+      className={`flex-row items-center mx-6 p-2.5 rounded-xl my-3 shadow-lg ${
+        toDo.completed ? 'bg-task-c-background' : 'bg-white'
+      }
+      `}
+      key={`${index}_${toDo.text}`}>
       <Text
-        style={[
-          styles.note,
-          {
-            textDecorationLine: toDo.completed ? 'line-through' : 'none',
-            color: toDo.completed ? '#07bc0c' : 'black',
-          },
-        ]}>
+        className={`flex-1 p-2.5 m-3 border bg-task-in-background rounded-lg ${
+          toDo.completed ? 'text-toDoText' : 'text-black'
+        }
+          ${toDo.completed ? 'line-through' : 'none'}`}>
         {toDo.text}
       </Text>
-      <Menu
-        style={styles.menuContainer}
-        visible={activeMenu === index}
-        onDismiss={() => setActiveMenu(null)}
-        anchor={
-          <TouchableOpacity onPress={() => setActiveMenu(index)}>
-            <MaterialIcons name="more-vert" size={30} color="black" />
-          </TouchableOpacity>
-        }>
-        {/* Toggle Task Completion */}
-        <Menu.Item
-          style={styles.menu}
-          onPress={() => {
-            toggleComplete(index);
-            setActiveMenu(null);
-          }}
-          title={toDo.completed ? 'Mark Incomplete' : 'Mark Complete'}
-          titleStyle={{
-            color: '#5bc236',
-          }}
-        />
-
-        {/* Edit Task */}
-        <Menu.Item
-          style={styles.menu}
-          onPress={() => {
-            onEdit(index);
-            setActiveMenu(null);
-          }}
-          title="Edit"
-          titleStyle={{
-            color: '#0070ff',
-          }}
-        />
-        {/* Delete Task */}
-        <Menu.Item
-          style={styles.menu}
-          onPress={() => {
-            onDelete(index);
-            setActiveMenu(null);
-          }}
-          title="Delete"
-          titleStyle={{
-            color: 'red',
-          }}
-        />
-      </Menu>
+      <DropDown
+        toDo={toDo}
+        index={index}
+        toggleComplete={toggleComplete}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
     </View>
   );
 };
