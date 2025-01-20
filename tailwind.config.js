@@ -13,8 +13,9 @@ module.exports = {
         'task-c-background':'#4cd964',
         'toDoText' : '#07bc0c',
         'task-in-background' : '#f9f9f9',
-        'footer-background' : '#b4c3e1',
-        'footer-btn-background' : '#2c7be5'
+        'text-Input-background' : '#b4c3e1',
+        'btn-background' : '#2c7be5',
+        'Cred-Inpu-background': '#dee5f2'
       },
       fontFamily: {
         poppins: ['Poppins-Regular'],

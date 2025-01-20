@@ -20,7 +20,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
 }) => {
   return (
     <View
-      className={`flex-row items-center mx-6 p-2.5 rounded-xl my-3 shadow-lg ${
+      style={{
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 4},
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+      }}
+      className={`flex-row items-center mx-6 p-2.5 rounded-xl my-3 ${
         toDo.completed ? 'bg-task-c-background' : 'bg-white'
       }
       `}

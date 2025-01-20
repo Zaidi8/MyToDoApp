@@ -1,114 +1,57 @@
-import React, {useState, useEffect} from 'react';
-import {ScrollView, SafeAreaView} from 'react-native';
-import Header from '../src/components/Common/Header';
-import Toast from 'react-native-toast-message';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Provider} from 'react-native-paper';
-import {Notes} from '../src/types/index';
-import {updateAsyncStorage} from '../src/utils/updateAsyncStorage';
-import {loadFromAsyncStorage} from '../src/utils/loadFromAsyncStorage';
+import React, {useRef} from 'react';
+import {
+  SafeAreaView,
+  Image,
+  KeyboardAvoidingView,
+  TextInput,
+  Keyboard,
+} from 'react-native';
 import {showToast} from '@/src/components/Toast/Toast';
-import EditModal from '@/src/components/Modal/EditModal';
-import TaskItem from '@/src/components/Specific/TaskItem';
-import Footer from '@/src/components/Common/Footer';
+import CredBtn from '@/src/components/Button/CredButton';
+import CredInput from '@/src/components/Input/CredInput';
+import CredText from '@/src/components/Specific/CredText';
+import CredFooter from '@/src/components/Common/CredFooter';
+import {useRouter} from 'expo-router';
 
-const App: React.FC = () => {
-  const [value, setValue] = useState<string>('');
-  const [toDoList, setToDos] = useState<Notes[]>([]);
-  const [editMode, setEditMode] = useState(false);
-  const [editText, setEditText] = useState('');
-  const [editIndex, setEditIndex] = useState<number | null>(null);
-
-  const readStorage = async () => {
-    const data = await loadFromAsyncStorage();
-    if (data) {
-      setToDos(data);
-    }
+const auth = () => {
+  const secondInputRef = useRef<TextInput>(null);
+  const router = useRouter();
+  const Succeed = () => {
+    showToast('success', 'Succeed', 'Signed In Successfully');
   };
-
-  const handleSubmit = async () => {
-    if (value.trim()) {
-      const updatedToDoList = [...toDoList, {text: value, completed: false}];
-      setToDos(updatedToDoList);
-      await updateAsyncStorage(updatedToDoList);
-    } else {
-      showToast('error', 'Error', 'Task Can Not Be Empty!');
-    }
-    setValue('');
-  };
-
-  const removeItem = async (index: number) => {
-    const newToDoList = [...toDoList];
-    newToDoList.splice(index, 1);
-    setToDos(newToDoList);
-    await updateAsyncStorage([...newToDoList]);
-  };
-
-  const toggleComplete = async (index: number) => {
-    const newToDoList = [...toDoList];
-    newToDoList[index].completed = !newToDoList[index].completed;
-    setToDos(newToDoList);
-    await updateAsyncStorage([...newToDoList]);
-  };
-
-  const handleEditTask = (index: number) => {
-    setEditIndex(index);
-    setEditText(toDoList[index].text);
-    setEditMode(true); // Open modal for editing
-  };
-  const handleEditSubmit = async () => {
-    if (editText.trim()) {
-      const newToDoList = [...toDoList];
-      newToDoList[editIndex!].text = editText;
-      setToDos(newToDoList);
-      await updateAsyncStorage(newToDoList);
-      setEditMode(false); // Close modal after saving
-    } else {
-      showToast('error', 'Error', 'Task Can Not Be Empty!');
-    }
-  };
-  const handleEditCancel = () => {
-    setEditMode(false);
-  };
-  useEffect(() => {
-    readStorage();
-  }, []);
-
   return (
-    <Provider>
-      <SafeAreaProvider>
-        <SafeAreaView className="flex-1 bg-background-blue relative">
-          <Header />
-          <ScrollView>
-            {toDoList.map((toDo, index) => (
-              <TaskItem
-                key={index}
-                toDo={toDo}
-                index={index}
-                toggleComplete={toggleComplete}
-                onEdit={handleEditTask}
-                onDelete={removeItem}
-              />
-            ))}
-          </ScrollView>
-          {/* Edit Task Modal */}
-          <EditModal
-            visible={editMode}
-            editText={editText}
-            onChangeText={setEditText}
-            onSave={handleEditSubmit}
-            onCancel={handleEditCancel}
-          />
-          <Footer
-            value={value}
-            onChange={setValue}
-            handleSubmit={handleSubmit}
-          />
-          <Toast />
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </Provider>
+    <SafeAreaView className="bg-background-blue flex-1 justify-center">
+      <Image
+        source={require('../src/assets/Icons/list.png')}
+        className="h-40 w-40 self-center mb-10"
+      />
+      <CredText text="Sign In" />
+      <KeyboardAvoidingView>
+        <CredInput
+          placeholder="Username/Email"
+          secureTextEntry={false}
+          keyboardType="email-address"
+          returnKeyType="next"
+          autoFocus={true}
+          onSubmitEditing={() => secondInputRef.current?.focus()}
+        />
+        <CredInput
+          ref={secondInputRef}
+          placeholder="Password"
+          secureTextEntry={true}
+          keyboardType="default"
+          returnKeyType="done"
+          autoFocus={false}
+          onSubmitEditing={() => Keyboard.dismiss()}
+        />
+        <CredBtn onPress={() => router.push('/App')} text="Sign In" />
+        <CredFooter
+          onPress={() => router.push('/SignUp')}
+          footerText="Dont Have an Account? "
+          btnText="Sign Up"
+        />
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
-
-export default App;
+export default auth;

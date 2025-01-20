@@ -1,5 +1,4 @@
 import {Modal, View, Text, TextInput} from 'react-native';
-import {Button} from 'react-native-paper';
 import CustomButton from '../Button/CustomButton';
 
 interface EditModalProps {
