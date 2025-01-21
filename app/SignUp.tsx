@@ -65,7 +65,7 @@ const signUp = () => {
           autoFocus={false}
           onSubmitEditing={() => Keyboard.dismiss()}
         />
-        <CredBtn onPress={() => router.push('/App')} text="Sign In" />
+        <CredBtn onPress={() => router.push('/App')} text="Sign Up" />
         <CredFooter
           onPress={() => router.back()}
           footerText="Already Have an Account? "

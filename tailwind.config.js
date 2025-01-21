@@ -18,7 +18,7 @@ module.exports = {
         'Cred-Inpu-background': '#dee5f2'
       },
       fontFamily: {
-        poppins: ['Poppins-Regular'],
+        poppins: ['/src/assets/Fonts/Poppins-Regular.ttf'],
         quicksand: ['Quicksand-Regular'],
         montserrat: ['Montserrat-Regular'],
         opensans: ['OpenSans-Regular'],
