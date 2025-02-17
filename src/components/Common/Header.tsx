@@ -1,8 +1,7 @@
 import React from 'react';
 import {Text, View, Image} from 'react-native';
-interface Props {}
 
-const Header: React.FC<Props> = () => {
+const Header: React.FC = () => {
   return (
     <View className="flex-row py-1 items-center justify-center">
       <Image
